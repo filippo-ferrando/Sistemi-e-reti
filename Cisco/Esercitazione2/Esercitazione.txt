@@ -1,0 +1,131 @@
+1)
+
+PC>ping 192.168.99.102
+
+Pinging 192.168.99.102 with 32 bytes of data:
+
+Reply from 192.168.99.102: bytes=32 time=8ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+
+Ping statistics for 192.168.99.102:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+
+2)
+
+PC>ping 192.168.99.102
+
+Pinging 192.168.99.102 with 32 bytes of data:
+
+Reply from 192.168.99.102: bytes=32 time=8ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+Reply from 192.168.99.102: bytes=32 time=4ms TTL=128
+
+Ping statistics for 192.168.99.102:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+
+3)
+1 subnet
+256 host max
+##########################################################################################
+1)
+PC>ping 10.0.1.24
+
+Pinging 10.0.1.24 with 32 bytes of data:
+
+Reply from 10.0.1.24: bytes=32 time=8ms TTL=128
+Reply from 10.0.1.24: bytes=32 time=4ms TTL=128
+Reply from 10.0.1.24: bytes=32 time=4ms TTL=128
+Reply from 10.0.1.24: bytes=32 time=4ms TTL=128
+
+Ping statistics for 10.0.1.24:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+
+2)
+
+PC>ping 10.0.1.22
+
+Pinging 10.0.1.22 with 32 bytes of data:
+
+Reply from 10.0.1.22: bytes=32 time=8ms TTL=128
+Reply from 10.0.1.22: bytes=32 time=4ms TTL=128
+Reply from 10.0.1.22: bytes=32 time=4ms TTL=128
+Reply from 10.0.1.22: bytes=32 time=4ms TTL=128
+
+Ping statistics for 10.0.1.22:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+
+3)
+256 host
+256 subnet
+
+#################################################################################################################
+
+1)
+PC>ping 192.168.13.70
+
+Pinging 192.168.13.70 with 32 bytes of data:
+
+Reply from 192.168.13.70: bytes=32 time=8ms TTL=128
+Reply from 192.168.13.70: bytes=32 time=4ms TTL=128
+Reply from 192.168.13.70: bytes=32 time=4ms TTL=128
+Reply from 192.168.13.70: bytes=32 time=4ms TTL=128
+
+Ping statistics for 192.168.13.70:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+
+2)
+PC>ping 192.168.13.75
+
+Pinging 192.168.13.75 with 32 bytes of data:
+
+Reply from 192.168.13.75: bytes=32 time=12ms TTL=128
+Reply from 192.168.13.75: bytes=32 time=6ms TTL=128
+Reply from 192.168.13.75: bytes=32 time=6ms TTL=128
+Reply from 192.168.13.75: bytes=32 time=6ms TTL=128
+
+Ping statistics for 192.168.13.75:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 6ms, Maximum = 12ms, Average = 7ms
+
+3)
+PC>ping 192.168.23.66
+
+Pinging 192.168.23.66 with 32 bytes of data:
+
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 192.168.23.66:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+4)
+PC>ping 192.168.23.65
+
+Pinging 192.168.23.65 with 32 bytes of data:
+
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 192.168.23.65:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+
+
+
