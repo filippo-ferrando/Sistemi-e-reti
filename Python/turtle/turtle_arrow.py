@@ -1,5 +1,8 @@
 from turtle import Turtle, Screen
 
+border_dim = 800
+border_control = 390
+
 wn = Screen()
 wn.bgcolor('lightblue')
 
@@ -8,7 +11,7 @@ pointer = Turtle()
 pointer.color('red')
 pointer.penup()
 
-wn.setup(width=800, height=800)
+wn.setup(width=border_dim, height=border_dim)
 
 #define speed
 speed = 3
@@ -18,11 +21,11 @@ def travel():
     pointer.forward(speed)
     wn.ontimer(travel, 10)
 
-    if pointer.xcor() > 390 or pointer.xcor() < -390:
+    if pointer.xcor() > border_control or pointer.xcor() < -border_control:
         pointer.goto(0,0)
     #pointer.direction = "stop"
 
-    if pointer.ycor() > 390 or pointer.ycor() < -390:
+    if pointer.ycor() > border_control or pointer.ycor() < -border_control:
         pointer.goto(0,0)
 
 #command for arrow keys
