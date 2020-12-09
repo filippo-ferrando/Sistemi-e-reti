@@ -12,9 +12,8 @@ def getcsv(fname, header, separator=','): #read csv file
             line_dict = {}
 
             for i, field in enumerate(fields):
-                key = header[i]
-                line_dict[key] = field.strip()
-                #print(line_dict)
+                key = header[i] #assign to the title or number or artist the field readed
+                line_dict[key] = field.strip() #eliminate the space between the lines
             lines.append(line_dict) #add the line to the list
 
     return lines
@@ -31,7 +30,6 @@ def shuffle(l, rep=10000): #shuffle the csv file
 
 csvin = getcsv("canzoni.csv", header)
 shuffled = shuffle(csvin)
-
 
 print("\noriginal playlist: \n")
 #print(*csvin, sep='\n')
