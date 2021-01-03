@@ -36,12 +36,9 @@ if __name__ == "__main__":
             else:
                 year[line.split(',')[1]] = (float(temp) + float(line.split(',')[2]) )/2
             cnt = (cnt+1)%2
-        except: pass 
-            
-
-    for element in year:
-        print(element + " "+str(year[element]))         
-
+        except:
+            pass 
+              
     anomalia(year,y1=input("Inserisci il primo anno: "),y2=input("Inserisci il secondo anno: ")) 
 
     file.close()
