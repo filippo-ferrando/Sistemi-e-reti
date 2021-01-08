@@ -10,8 +10,5 @@ def generate_mac():
             random.randint(0, 255),
             ))
 
-def main():
-    generate_mac()
-
 if __name__ == "__main__":
-    main()
+    generate_mac()
