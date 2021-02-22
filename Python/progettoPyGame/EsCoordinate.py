@@ -48,6 +48,9 @@ def main():
                     if pavimento[cordx][cordy+1] != -1:
                         lElemento.append(pavimento[cordx][cordy+1])
 
+                if len(lElemento) != 0:
+                    lElemento.insert(0, (cordx, cordy))
+
                 dizPos[pavimento[cordx][cordy]] = lElemento
 
     print(dizPos)
