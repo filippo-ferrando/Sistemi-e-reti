@@ -68,6 +68,13 @@ def main():
 
             writer.writerow([x, dizPosizioni[x][0], dizPosizioni[x][1]])
 
+    sortedDiz = sorted(dizPosizioni.values())
+
+    for x in sortedDiz:
+        i = sortedDiz.count(x)
+        if i > 1:
+            print(x)
+     
 
     while True:
         disegnaCampo()
