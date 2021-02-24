@@ -1,7 +1,4 @@
-import sys
-import pygame
-import random
-import csv
+import sys, random, csv, pygame
 
 distanza = 10
 dizPosizioni = {1:[0,0]}
@@ -19,7 +16,6 @@ ROSSO = (255,0,0)
 VERDE = (0,255,0)
 
 global cordX, cordY
-
 
 def disegnaCampo():
     for x in range (DIMMAX): #dovrebbe essere il doppio ma spacca gli occhi
@@ -48,9 +44,9 @@ def main():
 
     partenza = [OFFSET, OFFSET]
     
-
     with open('percorso.csv', 'w', newline='') as file:
         writer = csv.writer(file)
+        writer.writerow(["indice", "coordinata x", "coordinata y"])
 
         for x in range(1,DIMMAX,1):
             decisione = random.randint(0, 5)
@@ -75,7 +71,6 @@ def main():
         if i > 1:
             print(x)
      
-
     while True:
         disegnaCampo()
         
@@ -91,8 +86,6 @@ def main():
         
         
         pygame.display.update()
-
-            
 
 if __name__ == "__main__":
     main()
