@@ -1,139 +1,121 @@
-import sys
-import pygame as pg
 import pygame
+import sys
 
-global personaggio, possibilita, pavimento
+global posAttuale,possibilitaFuture,perimetro
 
-possibilita = {}
+perimetro = [[0, 0, 0, -1, -1, 0, -1], #0 libero -1 occupato
+                [-1, 0, 0, 0, -1, -1, 0], 
+                [0, 0, -1, -1, -1, 0, 0], 
+                [-1, 0, 0, 0, -1, -1, 0], 
+                [-1, 0, 0, 0, 0, -1, -1], 
+                [-1, -1, -1, 0, 0, 0, -1]]
+DIMENSIONE_CASELLA = 50
+DIMENSIONI = (DIMENSIONE_CASELLA * len(perimetro[0]),DIMENSIONE_CASELLA * len(perimetro))
 
-pavimento = [[0, 0, 0, -1, -1, 0, -1], #0 libero -1 occupato
-            [-1, 0, 0, 0, -1, -1, 0], 
-            [0, 0, -1, -1, -1, 0, 0], 
-            [-1, 0, 0, 0, -1, -1, 0], 
-            [-1, 0, 0, 0, 0, -1, -1], 
-            [-1, -1, -1, 0, 0, 0, -1]] 
-
-
-dimensione = 50 
-DIMENSIONI = (dimensione * len(pavimento[0]), dimensione * len(pavimento))
-
-
-NERO = (0,0,0)
 BIANCO = (255,255,255)
+NERO = (0,0,0)
 ROSSO = (255,0,0)
 VERDE = (0,255,0)
 
+possibilitaFuture = {}
 
-def disegnaSfondo():
-    for x in range (len(pavimento)):
-        for y in range (len(pavimento[0])):
-            piastrella = pg.Rect(y*dimensione,x*dimensione,dimensione,dimensione)
+def faiPossibilità():
+    global possibilitaFuture, perimetro
+    possibilita = []
 
-            if (pavimento[x][y] == -1):
-                pg.draw.rect(screen, ROSSO, piastrella)
+    cnt = 0
+        
+    for riga in range(len(perimetro)):
+        for cella in range(len(perimetro[riga])):
+            if(perimetro[riga][cella] == 0):
+                perimetro[riga][cella] = cnt
+                cnt+=1
             else:
-                pg.draw.rect(screen, BIANCO, piastrella)
+                perimetro[riga][cella] = -1
 
+    cnt = 0
+
+    for riga in range(len(perimetro)):
+        for cella in range(len(perimetro[riga])):
+            possibilita = []
+            if(perimetro[riga][cella]!=-1):
+                    
+                if(cella>=1):
+                    if(perimetro[riga][cella-1]!=-1):
+                        possibilita.append(perimetro[riga][cella-1])
+                if(cella+1<len(perimetro[riga])):
+                    if(perimetro[riga][cella+1]!=-1):
+                        possibilita.append(perimetro[riga][cella+1])
+                if(riga>=1):
+                    if(perimetro[riga-1][cella]!=-1):
+                        possibilita.append(perimetro[riga-1][cella])
+                if(riga+1<len(perimetro)):
+                    if(perimetro[riga+1][cella]!=-1):
+                        possibilita.append(perimetro[riga+1][cella])
+                if(len(possibilita) != 0):
+                    possibilita.insert(0,[riga,cella])
+                
+                possibilitaFuture[cnt] = possibilita
+                cnt+=1
+
+
+
+
+
+def drawPlayground():
+    for y in range(len(perimetro)):
+        for x in range(len(perimetro[0])):
+            piastrella = pygame.Rect(x*DIMENSIONE_CASELLA,y*DIMENSIONE_CASELLA,DIMENSIONE_CASELLA,DIMENSIONE_CASELLA)
+            if(perimetro[y][x] != -1):
+                pygame.draw.rect(screen,BIANCO,piastrella)
+            else:
+                pygame.draw.rect(screen,ROSSO,piastrella)
+                
 
 def controllaMovimenti(event):
-    global personaggio, possibilita
+    global posAttuale 
     spostX = 0
     spostY = 0
-
-    if event.key == pg.K_w:
-        print("su")
+    if event.key == pygame.K_w:
         spostY = -1
-    elif event.key == pg.K_s:
-        print("giu")
-        spostY = +1 
-    elif event.key == pg.K_a:
-        print("sinistra")
+    elif event.key == pygame.K_a:
         spostX = -1
-    elif event.key == pg.K_d:
-        print("destra")
-        spostX = +1
-   
+    elif event.key == pygame.K_s:
+        spostY = 1
+    elif event.key == pygame.K_d:
+        spostX = 1
 
-    for posFuture in possibilita[personaggio][1:]:
-        if([possibilita[personaggio][0][0] + spostY, possibilita[personaggio][0][1] + spostX] == possibilita[posFuture][0]):
-            personaggio = posFuture
+    for posFuture in possibilitaFuture[posAttuale][1:]:
+        if([possibilitaFuture[posAttuale][0][0] +spostY,possibilitaFuture[posAttuale][0][1]+spostX] == possibilitaFuture[posFuture][0]):
+            posAttuale = posFuture
 
-        print(posFuture)
-        print(possibilita[personaggio])
-
-def mappaPavimento():
-    global possibilita, pavimento
-
-    possibilita = {}
-    k = 0
-
-    for cordx in range (len(pavimento)):
-        for cordy in range (len(pavimento[cordx])):
-            if pavimento[cordx][cordy] == 0:
-                pavimento[cordx][cordy] = k
-                k += 1
-
-    for cordx in range (len(pavimento)):
-        for cordy in range (len(pavimento[cordx])):
-            lElemento = []
-            if pavimento[cordx][cordy] != -1:
-                if cordx > 0:
-                    if pavimento[cordx-1][cordy] != -1:
-                        lElemento.append(pavimento[cordx-1][cordy])
-                if cordx+1 < len(pavimento):
-                    if pavimento[cordx+1][cordy] != -1:
-                        lElemento.append(pavimento[cordx+1][cordy])
-                if cordy > 0:
-                    if pavimento[cordx][cordy-1] != -1:
-                        lElemento.append(pavimento[cordx][cordy-1])
-                if cordy < len(pavimento):
-                    if pavimento[cordx][cordy+1] != -1:
-                        lElemento.append(pavimento[cordx][cordy+1])
+def posizioneAttuale():
+    piastrella = pygame.Rect(possibilitaFuture[posAttuale][0][1]*DIMENSIONE_CASELLA,possibilitaFuture[posAttuale][0][0]*DIMENSIONE_CASELLA,DIMENSIONE_CASELLA,DIMENSIONE_CASELLA)
+    pygame.draw.rect(screen,VERDE,piastrella)
     
-                if len(lElemento) != 0:
-                    lElemento.insert(0, (cordx, cordy)) 
-
-                possibilita[pavimento[cordx][cordy]] = lElemento
-
-
-def stampaRect():
-    global possibilita
     
-    stampaPer = pg.Rect(possibilita[personaggio][0][0]*dimensione, possibilita[personaggio][0][1]*dimensione, dimensione,dimensione)
-    
-    pg.draw.rect(screen, VERDE, stampaPer)
-
-    
-
-
 def main():
-    global screen, personaggio, possibilita
-    pg.init()
-
-    screen = pg.display.set_mode(DIMENSIONI)
+    global screen,possibilitaFuture,posAttuale
+    pygame.init()
+    screen = pygame.display.set_mode(DIMENSIONI)
     screen.fill(NERO)
 
-    mappaPavimento()
-
-    personaggio = 0
+    faiPossibilità()
+    posAttuale = 0
 
     while True:
-        disegnaSfondo()
-        stampaRect()
+        drawPlayground()
+        posizioneAttuale()
+        
+        pygame.display.update()
 
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
+        for event in pygame.event.get():
+            if(event.type == pygame.QUIT):
+                pygame.quit()
                 sys.exit()
-
-            elif event.type == pg.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 controllaMovimenti(event)
-        
-        
-        pg.display.update()
 
 
-        
-
-if __name__ == "__main__":
+if(__name__ == "__main__"):
     main()
