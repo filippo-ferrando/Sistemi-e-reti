@@ -66,9 +66,11 @@ def codifica(stringa, diz): #apre il file csv, il ciclo for gira per la lunghezz
     with open('salvataggio.csv', 'w', newline='') as salvataggio:
         writer = csv.writer(salvataggio)
 
-        for k in range (len(stringa)):
-            lista.append(diz[stringa[k]]) #aggiungo la codifica dell'elemento alla lista
-            writer.writerow([lista[-1]]) #carico l'ultimo elemento della lista nel csv
+        for carattere in stringa:
+            lista.append(diz[carattere])#aggiungo la codifica dell'elemento alla lista
+            print(lista)
+            writer.writerow(diz[carattere]) #carico l'ultimo elemento della lista nel csv
+        
     return lista
 
 
