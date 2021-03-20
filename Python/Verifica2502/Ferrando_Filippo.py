@@ -64,7 +64,7 @@ def drawQR(string, lst): #scrive sulla finestra di pygame il quadrato rappresent
 def codifica(stringa, diz): #apre il file csv, il ciclo for gira per la lunghezza della stringa
     lista = []
     with open('salvataggio.csv', 'w', newline='') as salvataggio:
-        writer = csv.writer(salvataggio)
+        writer = csv.writer(salvataggio, delimiter=",", quoting = csv.QUOTE_ALL)
 
         for k in range (len(stringa)):
             lista.append(diz[stringa[k]]) #aggiungo la codifica dell'elemento alla lista
