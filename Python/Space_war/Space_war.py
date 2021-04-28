@@ -210,7 +210,7 @@ player = Player()
 player_bullets = []
 class Playerbullet:
     def __init__(self,powertype):
-        self.rect = pygame.Rect(player.rect.right,player.rect.centery,20,5)wal -i Pictures/Wallpaper/3b8ad2c7b1be2caf24321c852103598a.jpg
+        self.rect = pygame.Rect(player.rect.right,player.rect.centery,20,5)
         self.power = powertype
 
     def draw(self):
