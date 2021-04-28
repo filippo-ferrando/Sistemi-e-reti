@@ -1,6 +1,6 @@
 import socket
 
-serverAddress = ("127.0.0.1", 22222)
+serverAddress = ("0.0.0.0", 22222)
 buffer = 4096
 udpSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 

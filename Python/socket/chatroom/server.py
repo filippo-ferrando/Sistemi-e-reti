@@ -12,7 +12,7 @@ def RecvData(sock,recvPackets):
         recvPackets.put((data,addr))
 
 def RunServer():
-    host = "192.168.88.30"#socket.gethostbyname(socket.gethostname())
+    host = "0.0.0.0"#socket.gethostbyname(socket.gethostname())
     port = 5000
     print('Server hosting on IP-> '+str(host))
     s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -40,7 +40,6 @@ def RunServer():
                 if c!=addr:
                     s.sendto(data.encode('utf-8'),c)
     s.close()
-#Serevr Code Ends Here
 
 if __name__ == '__main__':
     RunServer()

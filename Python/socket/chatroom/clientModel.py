@@ -14,7 +14,7 @@ def ReceiveData(sock):
             pass
 
 def RunClient(serverIP):
-    host = "192.168.88.30" #socket.gethostbyname(socket.gethostname())
+    host = socket.gethostbyname(socket.gethostname())
     port = random.randint(6000,10000)
     print('Client IP->'+str(host)+' Port->'+str(port))
     server = (str(serverIP),5000)

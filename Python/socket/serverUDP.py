@@ -1,6 +1,6 @@
 import socket
 
-ip = "127.0.0.1"
+ip = "0.0.0.0"
 port = 22222
 buffer = 4096
 
