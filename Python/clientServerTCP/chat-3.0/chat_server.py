@@ -7,7 +7,7 @@ import threading as thr
 
 lstClient = []
 
-class MyStringProtocol():
+class encryptMessage():
     def __init__(self, *args):
         self.outputString = '浤'.join(str(i) for i in args)
 
@@ -33,7 +33,7 @@ class Client_Manager(thr.Thread):
                 print(f'<{thr.current_thread()}>messaggio spedito da {self.nickname} a {msg_received[0]}: {msg_received[-1]}')
                 for client in lstClient:
                     if client.nickname == msg_received[0] or (msg_received[0] == 'all' and self != client):
-                        msg_send = MyStringProtocol(self.nickname, msg_received[-1])
+                        msg_send = encryptMessage(self.nickname, msg_received[-1])
                         client.conn.sendall(msg_send.encode_msg())
     
 

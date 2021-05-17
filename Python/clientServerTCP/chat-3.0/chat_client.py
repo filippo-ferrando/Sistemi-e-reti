@@ -7,7 +7,7 @@ import time
 
 LOCAL = ('localhost', 5003)
 
-class MyStringProtocol():
+class encryptMessage():
     def __init__(self, *args):
         self.outputString = '浤'.join(str(i) for i in args)
 
@@ -43,10 +43,10 @@ def main():
             message = 'exit'
         else: 
             message = input('insert a message: ')
-            msg = MyStringProtocol(receiver,message)
+            msg = encryptMessage(receiver,message)
 
         if message.startswith('exit'):
-            msg = MyStringProtocol('None',message)
+            msg = encryptMessage('None',message)
             
         s.sendall(msg.encode_msg())
         if message.startswith('exit'):
