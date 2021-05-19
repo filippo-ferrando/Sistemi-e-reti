@@ -4,8 +4,9 @@ Simple chat in python using TCP socket and multithreading
 import socket as sck
 import threading as thr
 
-
-lstClient = []
+LOCAL = ("localhost", 5003)
+lstClient = {}
+dizMessages = {}
 
 class encryptMessage():
     def __init__(self, *args):
@@ -16,60 +17,75 @@ class encryptMessage():
 
 
 class Client_Manager(thr.Thread):
-    def __init__(self, addr, conn):
+    def __init__(self, addr, nickname, s):
         thr.Thread.__init__(self)
         self.addr = addr
-        self.conn = conn
-        self.nickname = ''
+        self.s = s
+        self.nickname = nickname
         self.running = True
+        self.lung = 0
     
     def run(self):
+        dizMessages[self.addr] = []
         while self.running:
-            msg_received = self.conn.recv(4096)
-            msg_received = msg_received.decode().split('浤')
-            if msg_received[-1].startswith('exit') and self.running: 
-                self.running = False
-            else:
-                print(f'<{thr.current_thread()}>messaggio spedito da {self.nickname} a {msg_received[0]}: {msg_received[-1]}')
-                for client in lstClient:
-                    if client.nickname == msg_received[0] or (msg_received[0] == 'all' and self != client):
-                        msg_send = encryptMessage(self.nickname, msg_received[-1])
-                        client.conn.sendall(msg_send.encode_msg())
-    
+            if dizMessages[self.addr].len() != self.lung:
+                msg = dizMessages[self.addr][self.lung]
+                msg = msg.decode().split('浤')
 
-class Accettazione(thr.Thread):
+            if msg[-1].startswith('exit') and self.running: 
+                self.running = False   
+            
+            #print(f'<{thr.current_thread()}>messaggio spedito da {self.nickname} a {msg_received[0]}: {msg_received[-1]}')
+            for key in lstClient.keys():
+                if key == msg[0] or (msg[0] == 'all' and self != key):
+                    msg_send = encryptMessage(self.nickname, msg[-1])
+                    self.s.sendto(msg_send.encode_msg(), lstClient[key])
+
+            self.lung += 1
+
+            
+
+
+
+class Controllo(thr.Thread):
     def __init__(self, s):
         thr.Thread.__init__(self)
         self.s = s
+        self.running = True
     
     def run(self):
         while True:
-            conn, addr = self.s.accept()
-            client = Client_Manager(addr, conn)
-            nick = client.conn.recv(4096)
-            client.nickname = nick.decode()
-            print('saved new user: ' + nick.decode())
-            lstClient.append(client)
-            client.start()
+            msg_received, addr = self.s.recvfrom(4096)        #ottengo stringa inviata --> nicknamed: testo --> ["nickname", "testo"]
+            msg_received_split = msg_received.decode().split('浤')
+            
+            for value in lstClient.values():
+                if addr == value:
+                    for key in dizMessages.keys():
+                        if key == addr:
+                            dizMessages[key].append(msg_received)                    
+                else:
+                    c = Client_Manager(addr, msg_received_split[0], self.s)
+                    lstClient[msg_received_split[0]] = addr
+                    c.start()
+                    
+
 
 
 def main():
     print(thr.current_thread())
-    s = sck.socket(sck.AF_INET, sck.SOCK_STREAM)
-    s.bind(('127.0.0.1', 5003))
-    s.listen()
+    s = sck.socket(sck.AF_INET, sck.SOCK_DGRAM)
+    s.bind(LOCAL)
 
-    acc = Accettazione(s)
+    acc = Controllo(s)
     acc.start()
-
+    '''
     while True:
         for c in lstClient:
             if not c.running:
-                print(f"Closing {c.nickname} --> {c.conn}")
-                c.conn.close()
+                print(f"Closing {c.nickname}")
                 c.join()
-                lstClient.remove(c)
-                print(lstClient)
+                #print(lstClient)
+    '''
 
 
 if __name__ == "__main__":

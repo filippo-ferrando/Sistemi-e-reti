@@ -17,24 +17,23 @@ class encryptMessage():
 
 
 class Connection(thr.Thread):
-    def __init__(self, port, s):
+    def __init__(self, s):
         thr.Thread.__init__(self)
-        self.port = port
         self.s = s
         self.running = True
     def run(self):
         while self.running:
-            data, addr = self.s.recvfrom(self.port)
+            data, addr = self.s.recvfrom(4096)
             msg_received = data.decode().split('浤')
             print(f"\nmessaggio arrivato da {msg_received[0]} : {msg_received[-1]}")
 
 def main():
-    s = sck.socket(sck.AF_INET, sck.SOCK_STREAM)
-    s.connect(LOCAL)
-    conn = Connection(LOCAL[1], s)
+    s = sck.socket(sck.AF_INET, sck.SOCK_DGRAM)
+
+    conn = Connection(s)
     conn.start()
 
-    s.sendall(input('tell me your nickname: ').encode())
+    s.sendto(input('tell me your nickname: ').encode(), LOCAL)
 
     while True:
         time.sleep(0.2)
@@ -48,7 +47,7 @@ def main():
         if message.startswith('exit'):
             msg = encryptMessage('None',message)
             
-        s.sendall(msg.encode_msg())
+        s.sendto(msg.encode_msg(), LOCAL)
         
         if message.startswith('exit'):
             conn.running = False
